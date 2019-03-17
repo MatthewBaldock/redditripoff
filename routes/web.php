@@ -12,7 +12,16 @@
 */
 
 Route::get('/', "HomeController@home");
+Route::get('/home',  function () {
+    return redirect('/');
+});
+Route::get('/rr',   function () {
+    return redirect('/');
+});
+Route::get('/profile/{username}', 'UserController@profile');
 Route::get('/rr/{pageId}', "HomeController@page");
+Route::get('/rr/{pageId}/post/create', "PostsController@create");
+Route::get('/rr/{pageId}/post/insert', "PostsController@insert");
 Route::get('/myroute', "HomeController@insert");
 
 Auth::routes();
