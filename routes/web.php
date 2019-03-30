@@ -11,6 +11,20 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', "HomeController@home");
+Route::get('/home',  function () {
+    return redirect('/');
 });
+Route::get('/rr',   function () {
+    return redirect('/');
+});
+Route::get('/page/create','PageController@createView');
+Route::post('/page/create','PageController@create');
+Route::get('/profile/{username}', 'UserController@profile');
+Route::get('/rr/{subreddit}', "HomeController@page");
+Route::get('/rr/{subreddit}/post/create', "PostsController@create");
+Route::get('/rr/{subreddit}/post/insert', "PostsController@insert");
+Route::get('/myroute', "HomeController@insert");
+
+Auth::routes();
+
