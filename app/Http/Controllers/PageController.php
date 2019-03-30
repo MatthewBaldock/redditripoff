@@ -1,9 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Auth;
 use Illuminate\Http\Request;
-
+use App\Page;
 class PageController extends Controller
 {
     public function show($subreddit)
@@ -16,11 +16,15 @@ class PageController extends Controller
 	}
 	public function createView()
 	{
-		return view("page.pageCreate");
+		return view("page.create");
 	}
 	public function create()
 	{
-		return view("page.pageCreate");
+		$newpage = \Request::all();
+		Page::insert( ['username' => Auth::user()->username, 'dateTime' => now(),
+		'pageDescrip'=> $newpage['pageDescrip'],
+		'subreddit'=> $newpage['subreddit']]);
+		return redirect("/rr/".$newpage['subreddit']."");
 	}
 	
 	public function editView()

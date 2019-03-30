@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Posts;
+use App\Page;
 class HomeController extends Controller
 {
     /**
@@ -26,10 +27,11 @@ class HomeController extends Controller
 		$posts = Posts::all();
         return view('home',compact("posts"));
     }
-	 public function page($pageId)
+	 public function page($subreddit)
     {
-		$posts = Posts::where("questionId","=",$pageId)->get();
-        return view('home',compact("posts"));
+		$page = Page::where("subreddit","=",$subreddit)->first();
+		$posts = Posts::where('questionId','=',$page['pageID'])->get();
+        return view('page.home',compact("page",'posts'));
     }
 	 public function insert()
     {

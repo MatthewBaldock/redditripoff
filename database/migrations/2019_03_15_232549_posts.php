@@ -14,7 +14,7 @@ class Posts extends Migration
     public function up()
     {
          Schema::create('posts', function (Blueprint $table) {
-            $table->increments('commentId');
+           /** $table->increments('commentId');
             $table->integer('questionId');
             $table->integer('parentCommentId');
             $table->string('commentText',255);
@@ -23,7 +23,7 @@ class Posts extends Migration
             $table->boolean('isEdited')->default(false);
             $table->boolean('isDeleted')->default(false);
             $table->integer('numTimesGilded')->default(0);
-			//$table->timestamps();
+			*///$table->timestamps();
         });
     }
 

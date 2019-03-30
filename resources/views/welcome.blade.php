@@ -26,6 +26,7 @@
                                 </li>
                             @endif
                         @else
+						<li  class="nav-item"><a class="nav-link" href="/page/create">New Page</a></li>
 						<li  class="nav-item"><a class="nav-link" href="/rr/0/post/create">New Post</a></li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>

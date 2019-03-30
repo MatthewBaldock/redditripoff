@@ -18,10 +18,12 @@ Route::get('/home',  function () {
 Route::get('/rr',   function () {
     return redirect('/');
 });
+Route::get('/page/create','PageController@createView');
+Route::post('/page/create','PageController@create');
 Route::get('/profile/{username}', 'UserController@profile');
-Route::get('/rr/{pageId}', "HomeController@page");
-Route::get('/rr/{pageId}/post/create', "PostsController@create");
-Route::get('/rr/{pageId}/post/insert', "PostsController@insert");
+Route::get('/rr/{subreddit}', "HomeController@page");
+Route::get('/rr/{subreddit}/post/create', "PostsController@create");
+Route::get('/rr/{subreddit}/post/insert', "PostsController@insert");
 Route::get('/myroute', "HomeController@insert");
 
 Auth::routes();
