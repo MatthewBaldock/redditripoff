@@ -7,11 +7,17 @@
 		<div class="container">
 		{!! Form::model($user,['method'=>'GET','id'=>'userForm']) !!}
 			<div class="row">
-			<h2>Info</h2>
+			<div class="row">
+				
+				<div class="col-sm-4"><h2>Info</h2>
+					<label for="email" class="col-sm col-form-label text-md-right">{{ __('E-Mail Address:') }}</label>
+					{{$user->email}}
+				</div>
 			<div class="col-sm-4">
-			  <label for="email" class="col-sm col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
-			<div class="col-sm">{{$user->email}}
-			</div>
+			<h2>Pages Followed</h2>
+			@foreach($pages as $page)
+			<a href='/rr/{{$page->subreddit}}'>{{$page->subreddit}}</a>
+			@endforeach
 			</div>
 			</div>
 			<div class="row">
@@ -185,8 +191,9 @@
 			</div>
 			</div>
 			</div>
-		{!! Form::close() !!}
 		</div>
+		{!! Form::close() !!}
+		
 	 </div>
 </div>
 </div>

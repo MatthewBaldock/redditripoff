@@ -15,7 +15,7 @@
 			</div>
 			<ul class="nav navbar-nav">
 			  <li  class="nav-item"><a class="nav-link" href="/">Home</a></li>
-			 
+
 			  @guest
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
@@ -27,7 +27,6 @@
                             @endif
                         @else
 						<li  class="nav-item"><a class="nav-link" href="/page/create">New Page</a></li>
-						<li  class="nav-item"><a class="nav-link" href="/rr/0/post/create">New Post</a></li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->username }} <span class="caret"></span>
@@ -50,6 +49,13 @@
 			</div>
 			
 		</nav>
+		 @if (count($errors) > 0)
+                 <div class="error_msg">
+                     <p>@foreach ($errors->all() as $error)
+                             {{ $error }}.&nbsp;
+                         @endforeach</p>
+                 </div>
+             @endif
 	<div class="canvas">
 		<div class="container">
 			@yield('content')

@@ -20,6 +20,7 @@ Route::get('/rr',   function () {
 });
 Route::get('/page/create','PageController@createView');
 Route::post('/page/create','PageController@create');
+Route::post('/follow/{subreddit}','FollowController@follow');
 Route::get('/profile/{username}', 'UserController@profile');
 Route::get('/rr/{subreddit}', "HomeController@page");
 Route::get('/rr/{subreddit}/post/create', "PostsController@create");
