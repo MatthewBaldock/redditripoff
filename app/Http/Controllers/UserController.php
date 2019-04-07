@@ -16,9 +16,9 @@ class UserController extends Controller
 		$pages = array();
 		foreach($follows as $follow)
 		{
-			array_push($pages,DB::selectOne(DB::raw("SELECT subreddit FROM page WHERE pageID = $follow->pageId;")));
+			array_push($pages,DB::selectOne("SELECT subreddit FROM page WHERE pageID = $follow->pageId;"));
 		}
-		$pageCreate = DB::select(DB::raw("SELECT subreddit FROM page WHERE username = '$username';"));
+		$pageCreate = DB::select("SELECT subreddit FROM page WHERE username = '$username';");
 
 		return view('profile',compact('user','pages','pageCreate'));
 	}

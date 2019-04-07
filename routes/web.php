@@ -25,7 +25,9 @@ Route::get('/page/edit/{pageID}','PageController@editView');
 Route::post('/page/edit/{pageID}','PageController@edit');
 Route::get('/page/delete/{pageID}','PageController@delView');
 Route::post('/page/delete/{pageID}','PageController@del');
-Route::post('/follow/{subreddit}','FollowController@follow');
+Route::post('/follow/{pageID}','FollowController@follow');
+
+Route::post('/unfollow/{pageID}','FollowController@unfollow');
 Route::get('/rr/{subreddit}/post/create', "PostsController@create");
 Route::get('/rr/{subreddit}/post/insert', "PostsController@insert");
 });

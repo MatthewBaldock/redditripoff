@@ -11,14 +11,14 @@ use Auth;
 use Carbon\Carbon;
 class FollowController extends Controller
 {
-    public function follow($subreddit)
+    public function follow($pageID)
 	{
-		//return "Here";
-		$page = Page::where('subreddit',$subreddit)->first();
+		$page = DB::selectOne("SELECT username, dateTime, pageDescrip, subreddit FROM page WHERE pageID = $pageID");
+
 		$userId = Auth::user()->userId;
 		$now = Carbon::now()->toDateTimeString();
-		DB::insert("INSERT INTO follow VALUES('$now',$userId, $page->pageID, '/rr/$page->subreddit');");
-		return redirect("/rr/$page->subreddit");
+		DB::insert("INSERT INTO follow VALUES('$now',$userId, $pageID, '/rr/$pageID');");
+		return redirect("/rr/$pageID");
 	}
 	public function followerList($pageId)
 	{	
@@ -30,12 +30,11 @@ class FollowController extends Controller
 		$followList = DB::raw("SELECT pageId FROM follower WHERE userId = $userId;");
 		return view("list",compact('followList'));
 	}
-	public function unfollow($subreddit)
+	public function unfollow($pageID)
 	{
-		$page = Page::where('subreddit',$subreddit)->first();
+		$page = DB::selectOne("SELECT username, dateTime, pageDescrip, subreddit FROM page WHERE pageID = $pageID");
 		$userId = Auth::user()->userid;
-		$now = Carbon::now()->toDateTimeString();
-		DB::delete("DELETE FROM follow WHERE userId = $userId AND pageId = $page->pageID;");
-		return redirect("/rr/$page->subreddit");
+		DB::delete("DELETE FROM follow WHERE userId = $userId AND pageId = $pageID;");
+		return redirect("/rr/$pageID");
 	}
 }

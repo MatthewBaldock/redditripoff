@@ -21,7 +21,7 @@ Created:{{$page[0]->dateTime}} by
 <div class="col-sm-4">
 @if(Auth::check())
 	@if(!$isFollowing)
-<form method="POST" action="/follow/{{$page[0]->subreddit}}">
+<form method="POST" action="/follow/{{$pageID}}">
 @csrf
 <div class="form-group row mb-0">
 <div class="col-md-6 offset-md-4">
@@ -32,7 +32,7 @@ Created:{{$page[0]->dateTime}} by
  </div>
 </form>
 	@else
-		<form method="POST" action="/unfollow/{{$page[0]->subreddit}}">
+		<form method="POST" action="/unfollow/{{$pageID}}">
 @csrf
 <div class="form-group row mb-0">
 <div class="col-md-6 offset-md-4">
@@ -52,20 +52,12 @@ Created:{{$page[0]->dateTime}} by
 	  <div class="panel panel-default">
 	  <h2>Followers</h2>
 @foreach($names as $name)
-<div class="panel-body"><a href='/profile/{{$name->username}}'>{{$name->username}}</a></div>
+<div class="panel-body"><a href="/profile/{{$name}}">{{$name}}</a></div>
 @endforeach
 	  </div>
 	</div>
 </div> 
-@foreach($posts as $post)
-<div class="col-sm-12">
-     <div class="panel-group">
-	  <div class="panel panel-default">
-		<div class="panel-body">{{$post->commentText}}</div>
-	  </div>
-	</div>
-</div>
-@endforeach
+@include('posts._template')
 </div>
 
 @endsection
