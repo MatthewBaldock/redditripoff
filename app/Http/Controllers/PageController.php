@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Auth;
 use Illuminate\Http\Request;
 use App\Page;
+use Illuminate\Support\Facades\DB;
 class PageController extends Controller
 {
     public function show($subreddit)
@@ -21,27 +22,51 @@ class PageController extends Controller
 	public function create()
 	{
 		$newpage = \Request::all();
-		Page::insert( ['username' => Auth::user()->username, 'dateTime' => now(),
-		'pageDescrip'=> $newpage['pageDescrip'],
-		'subreddit'=> $newpage['subreddit']]);
+		DB::insert(DB::raw("INSERT INTO Page VALUES(".Auth::user()->username."
+		,".now().",".$newpage['pageDescrip'].",".$newpage['subreddit'].");"));
 		return redirect("/rr/".$newpage['subreddit']."");
 	}
 	
-	public function editView()
+	public function editView($pageID)
 	{
-		return view("page.pageEdit");
+		if(Auth::user()->username != DB::selectOne(DB::raw("SELECT username FROM page WHERE pageID = $pageID"))->username)
+		{
+			return redirect('/');
+		}
+		$page = DB::selectOne(DB::raw("SELECT username, dateTime, pageDescrip, subreddit FROM page WHERE pageID = $pageID"));
+
+		return view("page.edit",compact('page','pageID'));
 	}
-	public function edit()
+	public function edit($pageID)
 	{
-		return view("page.pageEdit");
+		if(Auth::user()->username != DB::selectOne(DB::raw("SELECT username FROM page WHERE pageID = $pageID"))->username)
+		{
+			return redirect('/');
+		}
+		$values = \Request::all();
+		DB::update(DB::raw("UPDATE page SET pageDescrip ='" .$values['pageDescrip']."' WHERE pageID = $pageID;"));
+
+		DB::update(DB::raw("UPDATE page SET subreddit = '".$values['subreddit']."' WHERE pageID = $pageID;"));
+		return redirect('/rr/'.$pageID);
 	}
 	
-	public function delView()
+	public function delView($pageID)
 	{
-		return view("page.pageDel");
+		if(Auth::user()->username != DB::selectOne(DB::raw("SELECT username FROM page WHERE pageID = $pageID"))->username)
+		{
+			return redirect('/');
+		}
+		$page = DB::selectOne(DB::raw("SELECT username, dateTime, pageDescrip, subreddit FROM page WHERE pageID = $pageID"));
+
+		return view("page.delete",compact('page','pageID'));
 	}
-	public function del()
+	public function del($pageID)
 	{
-		return view("page.pageDel");
+		if(Auth::user()->username != DB::selectOne(DB::raw("SELECT username FROM page WHERE pageID = $pageID"))->username)
+		{
+			return redirect('/');
+		}
+		DB::delete(DB::raw("DELETE FROM page WHERE pageID = $pageID;"));
+		return redirect('/');
 	}
 }

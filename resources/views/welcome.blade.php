@@ -49,7 +49,24 @@
 			</div>
 			
 		</nav>
-		 @if (count($errors) > 0)
+		 
+	<div class="container">
+		<div class="row">
+			<div class="col-md-1">
+			<label>All Pages</label>
+				<table class="table table-condensed table-bordered">
+					<tbody>
+						<tr class="success">
+							@foreach($pageLinks as $pageLink)
+							<td><a href="/rr/{{$pageLink->pageID}}">{{$pageLink->subreddit}}</a></td>
+							@endforeach
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	@if (count($errors) > 0)
                  <div class="error_msg">
                      <p>@foreach ($errors->all() as $error)
                              {{ $error }}.&nbsp;

@@ -19,7 +19,14 @@
 			<a href='/rr/{{$page->subreddit}}'>{{$page->subreddit}}</a>
 			@endforeach
 			</div>
+			<div class="col-sm-4">
+			<h2>Pages Created</h2>
+			@foreach($pageCreate as $create)
+			<a href='/rr/{{$create->subreddit}}'>{{$create->subreddit}}</a>
+			@endforeach
 			</div>
+			</div>
+			@if(Auth::check() && Auth::user()->username == $user->username)
 			<div class="row">
 			<h2> Preferences</h2>
 			<div class="col-sm-4">
@@ -191,6 +198,7 @@
 			</div>
 			</div>
 			</div>
+			@endif
 		</div>
 		{!! Form::close() !!}
 		

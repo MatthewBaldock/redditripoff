@@ -30,22 +30,24 @@ class HomeController extends Controller
 		$posts = Posts::all();
         return view('home',compact("posts"));
     }
-	 public function page($subreddit)
+	 public function page($pageID)
     {
-		$page = Page::where("subreddit","=",$subreddit)->first();
-		$posts = Posts::where('questionId','=',$page['pageID'])->get();
-		$followers = DB::select("SELECT userId FROM follow WHERE pageId = $page->pageID;");
+		$page = DB::select(DB::raw("SELECT username, dateTime, pageDescrip, subreddit FROM page WHERE pageID = $pageID"));
+		$posts = Posts::where('questionId','=',$pageID)->get();
+		$followers = DB::select("SELECT userId FROM follow WHERE pageId = $pageID");
 		$names = array();
 		$isFollowing = false;
 		foreach($followers as $follower)
 		{
-			array_push($names,User::select('username')->where('userid','=',$follower->userId)->first());
+			array_push($names,User::select('username')->where('userId','=',$follower->userId)->first());
+		
 		}
+		if(Auth::check())
 		if(in_array(Auth::user()->username,$names))
 		{
 			$isFollowing = true;
 		}
-        return view('page.home',compact("page",'posts','names','isFollowing'));
+        return view('page.home',compact("page",'posts','names','isFollowing','pageID'));
     }
 	 public function insert()
     {

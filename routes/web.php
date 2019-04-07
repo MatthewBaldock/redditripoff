@@ -18,13 +18,19 @@ Route::get('/home',  function () {
 Route::get('/rr',   function () {
     return redirect('/');
 });
+Route::group(['middleware' => ['auth']],function(){
 Route::get('/page/create','PageController@createView');
 Route::post('/page/create','PageController@create');
+Route::get('/page/edit/{pageID}','PageController@editView');
+Route::post('/page/edit/{pageID}','PageController@edit');
+Route::get('/page/delete/{pageID}','PageController@delView');
+Route::post('/page/delete/{pageID}','PageController@del');
 Route::post('/follow/{subreddit}','FollowController@follow');
-Route::get('/profile/{username}', 'UserController@profile');
-Route::get('/rr/{subreddit}', "HomeController@page");
 Route::get('/rr/{subreddit}/post/create', "PostsController@create");
 Route::get('/rr/{subreddit}/post/insert', "PostsController@insert");
+});
+Route::get('/profile/{username}', 'UserController@profile');
+Route::get('/rr/{pageID}', "HomeController@page");
 Route::get('/myroute', "HomeController@insert");
 
 Auth::routes();

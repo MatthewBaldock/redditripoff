@@ -15,7 +15,7 @@ class FollowController extends Controller
 	{
 		//return "Here";
 		$page = Page::where('subreddit',$subreddit)->first();
-		$userId = Auth::user()->userid;
+		$userId = Auth::user()->userId;
 		$now = Carbon::now()->toDateTimeString();
 		DB::insert("INSERT INTO follow VALUES('$now',$userId, $page->pageID, '/rr/$page->subreddit');");
 		return redirect("/rr/$page->subreddit");

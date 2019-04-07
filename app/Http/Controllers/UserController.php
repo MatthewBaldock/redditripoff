@@ -12,12 +12,14 @@ class UserController extends Controller
     public function profile($username)
 	{
 		$user = User::where('username','=',$username)->first();
-		$follows = DB::select("SELECT * FROM follow WHERE userId = $user->userid;");
+		$follows = DB::select("SELECT * FROM follow WHERE userId = $user->userId;");
 		$pages = array();
 		foreach($follows as $follow)
 		{
-			array_push($pages,Page::select('subreddit')->where('pageID','=',$follow->pageId)->first());
+			array_push($pages,DB::selectOne(DB::raw("SELECT subreddit FROM page WHERE pageID = $follow->pageId;")));
 		}
-		return view('profile',compact('user','pages'));
+		$pageCreate = DB::select(DB::raw("SELECT subreddit FROM page WHERE username = '$username';"));
+
+		return view('profile',compact('user','pages','pageCreate'));
 	}
 }
