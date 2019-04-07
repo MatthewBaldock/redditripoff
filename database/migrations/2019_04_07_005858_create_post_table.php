@@ -13,19 +13,14 @@ class CreatePostTable extends Migration
      */
     public function up()
     {
-		Schema::dropIfExists('post');
-        Schema::create('post', function (Blueprint $table) {
-            $table->increments('postId');
-            $table->string('commentText',255);
-            $table->integer('author');
-			$table->timestamp('dateSubmitted');
-            $table->boolean('isEdited')->default(0);
-            $table->boolean('isDeleted')->default(0);
-            $table->integer('numTimesGilded')->default(0);
+        Schema::table('posts', function (Blueprint $table) {
+            $table->renameColumn('commentId', 'postId');
+			
 			$table->bigInteger('postKarma')->default(0);
 			$table->string('link',255);
 			$table->string('postTitle',255);
-            $table->integer('pageId');
+			$table->renameColumn('questionId', 'pageId');
+            
         });
     }
 

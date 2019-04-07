@@ -7,6 +7,8 @@
 	<button class="btn btn-info" onClick="location='/page/edit/{{$pageID}}'">Edit</button>
  <button class="btn btn-danger" onClick="location='/page/delete/{{$pageID}}'">Delete</button>	
 @endif
+
+ <button class="btn btn-default" onClick="location='/rr/{{$pageID}}/post/create'">New Post</button>	
 <h1>{{$page[0]->subreddit}}</h1>
 <div class="panel-group">
 {{$page[0]->pageDescrip}}</div>

@@ -8,14 +8,15 @@ class PostsController extends Controller
 {
     public function __construct()
     {
-		//$this->middleware('auth');
+		
 	}
-	public function create($pageId)
+	public function createView($pageId)
 	{
 		return view('posts.create',compact('pageId'));
 	}
-	public function insert($pageId)
+	public function create($pageId)
 	{
+		$newPost = \Request::all();
 		return view('posts.create');
 	}
 }

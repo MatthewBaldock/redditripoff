@@ -28,8 +28,8 @@ Route::post('/page/delete/{pageID}','PageController@del');
 Route::post('/follow/{pageID}','FollowController@follow');
 
 Route::post('/unfollow/{pageID}','FollowController@unfollow');
-Route::get('/rr/{subreddit}/post/create', "PostsController@create");
-Route::get('/rr/{subreddit}/post/insert', "PostsController@insert");
+Route::get('/rr/{subreddit}/post/create', "PostsController@createView");
+Route::post('/rr/{subreddit}/post/create', "PostsController@create");
 });
 Route::get('/profile/{username}', 'UserController@profile');
 Route::get('/rr/{pageID}', "HomeController@page");
