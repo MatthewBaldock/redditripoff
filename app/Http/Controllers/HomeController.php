@@ -33,7 +33,7 @@ class HomeController extends Controller
 	 public function page($pageID)
     {
 		$page = DB::select("SELECT username, dateTime, pageDescrip, subreddit FROM page WHERE pageID = $pageID");
-		$posts = Posts::where('questionId','=',$pageID)->get();
+		$posts = DB::select("SELECT * FROM posts WHERE pageId=$pageID;");
 		$followers = DB::select("SELECT userId FROM follow WHERE pageId = $pageID");
 		$names = array();
 		$isFollowing = false;

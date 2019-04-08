@@ -3,12 +3,15 @@
 <div class="row">
 
 <div class="col-sm-8">
-@if(Auth::check() && Auth::user()->username == $page[0]->username)
+@if(Auth::check())
+@if(Auth::user()->username == $page[0]->username)
 	<button class="btn btn-info" onClick="location='/page/edit/{{$pageID}}'">Edit</button>
  <button class="btn btn-danger" onClick="location='/page/delete/{{$pageID}}'">Delete</button>	
-@endif
-
+	@endif
+	
  <button class="btn btn-default" onClick="location='/rr/{{$pageID}}/post/create'">New Post</button>	
+	@endif
+
 <h1>{{$page[0]->subreddit}}</h1>
 <div class="panel-group">
 {{$page[0]->pageDescrip}}</div>

@@ -11,7 +11,7 @@
                     <form method="POST" action="/rr/{{$pageId}}/post/create">
                         @csrf
 							<div class="form-group row">
-                            <label for="postTitle" class="col-md-4 col-form-label text-md-right">{{ __('postTitle') }}</label>
+                            <label for="postTitle" class="col-md-4 col-form-label text-md-right">{{ __('Post Title') }}</label>
 
                             <div class="col-md-6">
                                 <input id="postTitle" type="text" class="form-control{{ $errors->has('postTitle') ? ' is-invalid' : '' }}" name="postTitle" value="{{ old('postTitle') }}" required autofocus>
