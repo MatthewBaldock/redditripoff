@@ -27,13 +27,13 @@ class HomeController extends Controller
      */
     public function home()
     {
-		$posts = Posts::all();
+		$posts = DB::select("SELECT * FROM posts ORDER BY dateSubmitted DESC;");
         return view('home',compact("posts"));
     }
 	 public function page($pageID)
     {
 		$page = DB::select("SELECT username, dateTime, pageDescrip, subreddit FROM page WHERE pageID = $pageID");
-		$posts = DB::select("SELECT * FROM posts WHERE pageId=$pageID;");
+		$posts = DB::select("SELECT * FROM posts WHERE pageId=$pageID ORDER BY dateSubmitted DESC;");
 		$followers = DB::select("SELECT userId FROM follow WHERE pageId = $pageID");
 		$names = array();
 		$isFollowing = false;

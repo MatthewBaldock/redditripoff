@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Posts;
 use Illuminate\Support\Facades\DB;
+use Auth;
 class PostsController extends Controller
 {
     public function __construct()
@@ -18,33 +19,48 @@ class PostsController extends Controller
 	public function create($pageId)
 	{
 		$newPost = \Request::all();
-		return view('posts.create');
+		DB::insert("INSERT INTO Posts (author,postTitle,commentText,pageId,parentCommentId,link)
+			VALUES(".Auth::user()->userId.",'".$newPost['postTitle']."','".$newPost['commentText']."',".$pageId.",0,'');");
+		return redirect('/rr/'.$pageId);
 	}
-	public function editView($pageId)
+	public function editView($pageId,$postId)
 	{
-		return view('posts.edit',compact('pageId'));
+		if(Auth::user()->userId != DB::selectOne("SELECT author FROM posts WHERE postId = $postId")->author)
+		{
+			return redirect('/');
+		}
+		$post = DB::selectOne("SELECT * FROM posts WHERE postId = $postId AND pageId = $pageId;");
+		return view('posts.edit',compact('pageId','postId','post'));
 	}
-	public function edit($pageId)
-	{
-		$newPost = \Request::all();
-		return view('posts.edit');
-	}
-	public function delView($pageId)
-	{
-		return view('posts.delete',compact('pageId'));
-	}
-	public function del($pageId)
+	public function edit($pageId,$postId)
 	{
 		$newPost = \Request::all();
-		return view('posts.delete');
+		DB::selectOne("UPDATE posts SET postTitle ='".$newPost['postTitle']."', commentText='".$newPost['commentText']."'
+		WHERE postId=$postId");
+		return redirect('/rr/'.$pageId);
+	}
+	public function delView($pageId,$postId)
+	{
+		if(Auth::user()->userId != DB::selectOne("SELECT author FROM posts WHERE postId = $postId")->author)
+		{
+			return redirect('/');
+		}
+		$post = DB::selectOne("SELECT * FROM posts WHERE postId = $postId AND pageId = $pageId;");
+		return view('posts.delete',compact('pageId','postId','post'));
+	}
+	public function del($pageId,$postId)
+	{
+		DB::delete("DELETE FROM Posts Where postId = $postId AND pageId = $pageId;");
+		return redirect('/rr/'.$pageId);
 	}
 	public function upvote($postId)
 	{
 		$post = Posts::where('postId','=',$postId)->first();
 		$temp = $post->postKarma + 1;
 		$user = DB::selectOne("SELECT * FROM users WHERE userId = $post->author;");
-		$temp = $user->link_karma +1;
+		
 		DB::update("UPDATE posts SET postKarma= $temp WHERE postId = $postId;");
+		$temp = $user->link_karma +1;
 		DB::update("UPDATE users SET link_karma= $temp WHERE userId = $user->userId;");
 		return redirect()->back();
 	}
@@ -54,9 +70,9 @@ class PostsController extends Controller
 		$post = Posts::where('postId','=',$postId)->first();
 		$temp = $post->postKarma - 1;
 		$user = DB::selectOne("SELECT * FROM users WHERE userId = $post->author;");
-		$temp = $user->link_karma -1;
-		DB::update("UPDATE posts SET postKarma= $temp WHERE postId = $postId;");
 		
+		DB::update("UPDATE posts SET postKarma= $temp WHERE postId = $postId;");
+		$temp = $user->link_karma -1;
 		DB::update("UPDATE users SET link_karma= $temp WHERE userId = $user->userId;");
 		return redirect()->back();
 	}

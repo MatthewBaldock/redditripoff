@@ -11,7 +11,15 @@
 		<span class="badge">{{$post->postKarma}}</span> 
 		<button type="submit" formaction="/post/downvote/{{$post->postId}}">&darr;</button> 
 		</form>	
-		{{$post->dateSubmitted}}</div>
+		{{$post->dateSubmitted}}
+		@if(Auth::check())
+@if(Auth::user()->userId == $post->author)
+		<a href="/rr/{{$post->pageId}}/post/edit/{{$post->postId}}">edit</a>
+	
+		<a href="/rr/{{$post->pageId}}/post/delete/{{$post->postId}}">delete</a>
+		@endif
+		@endif
+		</div>
 	  </div>
 	</div>
 </div>
